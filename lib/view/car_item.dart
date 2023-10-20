@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 import 'package:karshenase_khodro/controllers/AutomativeExpertController.dart';
 import 'package:karshenase_khodro/models/automative_expert_cheklist_model.dart';
@@ -124,16 +125,27 @@ class CarItem extends StatelessWidget {
                                       size: 16,
                                       color: Colors.green,
                                     ),
-                                    Text(automativeExpertController
-                                        .trueCount[index]
-                                        .toString()),
+                                    Text(
+                                        '${automativeExpertController.addedCars[automativeExpertController.selectedItemIndex!].trueCounter[index]}'
+
+                                        // automativeExpertController
+                                        //       .addedCars[
+                                        //           automativeExpertController
+                                        //               .selectedItemIndex!]
+                                        //       .trueCounter[index]
+                                        //       .toString()
+                                        //'{automativeExpertController.addedCars[index].falseCounter[2]}'
+                                        ),
                                     const SizedBox(
                                       width: 6,
                                     ),
                                     automativeExpertController
-                                                .trueCount[index] ==
+                                                .addedCars[
+                                                    automativeExpertController
+                                                        .selectedItemIndex!]
+                                                .falseCounter[index] ==
                                             0
-                                        ? SizedBox()
+                                        ? const SizedBox()
                                         : const Icon(
                                             Icons
                                                 .do_not_disturb_on_total_silence_outlined,
@@ -141,11 +153,17 @@ class CarItem extends StatelessWidget {
                                             size: 16,
                                           ),
                                     automativeExpertController
-                                                .trueCount[index] ==
+                                                .addedCars[
+                                                    automativeExpertController
+                                                        .selectedItemIndex!]
+                                                .falseCounter[index] ==
                                             0
                                         ? SizedBox()
                                         : Text(automativeExpertController
-                                            .falseCount[index]
+                                            .addedCars[
+                                                automativeExpertController
+                                                    .selectedItemIndex!]
+                                            .falseCounter[index]
                                             .toString()),
                                   ],
                                 ),
@@ -224,8 +242,10 @@ class EditButton extends StatelessWidget {
           style: ButtonStyle(),
           // edit button
           onPressed: () {
-            // فرض می‌کنیم که selectedItemIndex مقدار اندیس مورد نظر را دارد
-
+//             مقدار  isHealthy هایی که ذخیره شده در لیست مساوی بشه طبق مقدار اندکس با isHelathy های درون
+// automativeExpert
+// با ایندکس مشخص انتخاب شده مثلا
+//   int? selectedItemIndex;
             if (automativeExpertController.selectedItemIndex != null) {
               // دریافت نام دسته فعلی
               String currentCategory = automativeExpertController
@@ -253,8 +273,19 @@ class EditButton extends StatelessWidget {
                 }
               }
             }
-
+//
+            if (automativeExpertController.automativeExpert !=
+                automativeExpertController
+                    .addedCars[automativeExpertController.selectedItemIndex!]
+                    .expert) {
+              automativeExpertController.automativeExpert.addAll(
+                  automativeExpertController
+                      .addedCars[automativeExpertController.selectedItemIndex!]
+                      .expert);
+            }
+            //
             automativeExpertController.isEditingMode = true;
+            //
             automativeExpertController.carNameController.text =
                 automativeExpertController
                     .addedCars[automativeExpertController.selectedItemIndex!]
@@ -267,6 +298,7 @@ class EditButton extends StatelessWidget {
                 automativeExpertController
                     .addedCars[automativeExpertController.selectedItemIndex!]
                     .fullDescription;
+
             Get.to(AutomativeExpertCheklist());
           },
           child: const Row(

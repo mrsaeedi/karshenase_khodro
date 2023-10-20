@@ -8,6 +8,7 @@ class AutomativeExpertController extends GetxController {
   int? selectedItemIndex;
   RxList<Car> carList = <Car>[].obs;
   // RxList<Car> newCar = Hive.box<Car>('carBox').values.toList().obs;
+  RxBool? expansionTileOpenCheack;
 
   ///
   RxMap<String, List<AutomativeExpertModel>> automativeExpert =
@@ -31,8 +32,6 @@ class AutomativeExpertController extends GetxController {
           title: 'گلگیر جلو شاگرد', description: [], isHealthy: null),
       AutomativeExpertModel(
           title: 'گلگیر عقب شاگرد', description: [], isHealthy: null),
-      AutomativeExpertModel(title: 'کاپوت', description: [], isHealthy: null),
-      AutomativeExpertModel(title: 'کاپوت', description: [], isHealthy: null),
       AutomativeExpertModel(title: 'سقف', description: [], isHealthy: null),
       AutomativeExpertModel(
           title: 'در صندوق', description: [], isHealthy: null),
@@ -269,7 +268,6 @@ class AutomativeExpertController extends GetxController {
     ],
     ' ': []
   }.obs;
-
   //
   TextEditingController carNameController = TextEditingController();
   TextEditingController carDescription = TextEditingController();
@@ -284,8 +282,8 @@ class AutomativeExpertController extends GetxController {
     Icon(Icons.edit_document),
     Icon(Icons.edit_document),
   ];
-  RxList<Car> addedCars = <Car>[].obs;
   RxList<Car> addedCarsRevers = <Car>[].obs;
+  RxList<Car> addedCars = <Car>[].obs;
 
   List trueCount = [
     0,
@@ -306,10 +304,13 @@ class AutomativeExpertController extends GetxController {
     0,
   ];
 
-  void updateCarInHive(index, expert, name, fullDescription, other) async {
+  void updateCarInHive(
+      {index, expert, name, fullDescription, other, t, f}) async {
     await Hive.box<Car>('carBox').putAt(
         index,
         Car(
+            trueCounter: t,
+            falseCounter: f,
             expert: expert,
             name: name,
             fullDescription: fullDescription,
@@ -331,7 +332,7 @@ class AutomativeExpertController extends GetxController {
     loadCarsFromHive();
 
     // اضافه کردن یک واچر برای تغییرات در باکس Hive
-    await Hive.box<Car>('carBox').watch().listen((event) {
+    Hive.box<Car>('carBox').watch().listen((event) {
       // اگر داده‌ها در باکس تغییر کنند، آنها به لیست carList اضافه می‌شوند
       loadCarsFromHive();
     });

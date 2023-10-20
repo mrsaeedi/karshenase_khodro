@@ -17,8 +17,10 @@ class CarAdapter extends TypeAdapter<Car> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Car(
+      falseCounter: (fields[6] as List).cast<dynamic>(),
+      trueCounter: (fields[5] as List).cast<dynamic>(),
       expert: (fields[4] as Map).map((dynamic k, dynamic v) =>
-          MapEntry(k as String, (v as List).cast<dynamic>())),
+          MapEntry(k as String, (v as List).cast<AutomativeExpertModel>())),
       name: fields[1] as String,
       fullDescription: fields[3] as String,
       other: fields[2] as String,
@@ -28,7 +30,7 @@ class CarAdapter extends TypeAdapter<Car> {
   @override
   void write(BinaryWriter writer, Car obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
@@ -36,7 +38,11 @@ class CarAdapter extends TypeAdapter<Car> {
       ..writeByte(3)
       ..write(obj.fullDescription)
       ..writeByte(4)
-      ..write(obj.expert);
+      ..write(obj.expert)
+      ..writeByte(5)
+      ..write(obj.trueCounter)
+      ..writeByte(6)
+      ..write(obj.falseCounter);
   }
 
   @override

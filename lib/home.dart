@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: Drawer(
+        drawer: const Drawer(
             child: Column(
           children: [Text('نسخه اپلیکیشن')],
         )),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:karshenase_khodro/controllers/AutomativeExpertController.dart';
@@ -74,7 +73,7 @@ class AutomativeExpertCheklist extends StatelessWidget {
                                           label: Text('نام خودرو')),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Padding(
@@ -97,7 +96,7 @@ class AutomativeExpertCheklist extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Text('سالم'),
+                                        const Text('سالم'),
                                         Checkbox(
                                           activeColor: Colors.green,
                                           value: true,
@@ -299,7 +298,8 @@ class AutomativeExpertCheklist extends StatelessWidget {
                                             ],
                                           ),
                                           trailing: Container(
-                                            margin: EdgeInsets.only(left: 0),
+                                            margin:
+                                                const EdgeInsets.only(left: 0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -353,101 +353,50 @@ class AutomativeExpertCheklist extends StatelessWidget {
                     if (automativeExpertController.isEditingMode) {
                       automativeExpertController.updateCarInHive(
                           // index // insert car description for edit
-                          automativeExpertController.selectedItemIndex,
+                          index: automativeExpertController.selectedItemIndex,
                           //expert
-                          automativeExpertController.automativeExpert,
+                          expert: automativeExpertController.automativeExpert,
                           //name
-                          automativeExpertController.carNameController.text,
+                          name:
+                              automativeExpertController.carNameController.text,
                           // full descrieption
-                          automativeExpertController.fullDescrption.text,
+                          fullDescription:
+                              automativeExpertController.fullDescrption.text,
                           // ohter
-                          automativeExpertController.carDescription.text);
+                          other: automativeExpertController.carDescription.text,
+                          // true counter
+                          t: automativeExpertController.trueCount,
+                          // false counter
+                          f: automativeExpertController.falseCount);
 
-                      // insert car name in field for edit
-//                       automativeExpertController
-//                               .addedCars[
-//                                   automativeExpertController.selectedItemIndex!]
-//                               .name =
-//                           automativeExpertController.carNameController.text;
-//
-//                       automativeExpertController
-//                               .addedCars[
-//                                   automativeExpertController.selectedItemIndex!]
-//                               .other =
-//                           automativeExpertController.carDescription.text;
-// // insert car full descreiption for edit
-//                       automativeExpertController
-//                               .addedCars[
-//                                   automativeExpertController.selectedItemIndex!]
-//                               .fullDescription =
-//                           automativeExpertController.fullDescrption.text;
-// // insert car check list for edit
-//                       automativeExpertController
-//                           .addedCars[
-//                               automativeExpertController.selectedItemIndex!]
-//                           .expert = automativeExpertController.automativeExpert;
+                      automativeExpertController.isEditingMode = false;
                     } else {
                       //
-                      automativeExpertController.automativeExpert
-                          .forEach((key, value) {
-                        if (key == 'بدنه و شاسی') {
-                          for (var model in value) {
-                            if (model.isHealthy == true) {
-                              automativeExpertController.trueCount[1]++;
-                            } else if (model.isHealthy == false) {
-                              automativeExpertController.falseCount[1]++;
-                            }
-                          }
-                        } else if (key == 'فنی') {
-                          for (var model in value) {
-                            if (model.isHealthy == true) {
-                              automativeExpertController.trueCount[2]++;
-                            } else if (model.isHealthy == false) {
-                              automativeExpertController.falseCount[2]++;
-                            }
-                          }
-                        } else if (key == 'آپشن و رفاهی') {
-                          for (var model in value) {
-                            if (model.isHealthy == true) {
-                              automativeExpertController.trueCount[3]++;
-                            } else if (model.isHealthy == false) {
-                              automativeExpertController.falseCount[3]++;
-                            }
-                          }
-                        } else if (key == 'رینگ و لاستیک') {
-                          for (var model in value) {
-                            if (model.isHealthy == true) {
-                              automativeExpertController.trueCount[4]++;
-                            } else if (model.isHealthy == false) {
-                              automativeExpertController.falseCount[4]++;
-                            }
-                          }
-                        } else if (key == 'اسناد و مدارک') {
-                          for (var model in value) {
-                            if (model.isHealthy == true) {
-                              automativeExpertController.trueCount[5]++;
-                            } else if (model.isHealthy == false) {
-                              automativeExpertController.falseCount[5]++;
-                            }
-                          }
-                        }
-                      });
-
+                      counterTrueFalse();
                       await Hive.box<Car>('carBox').add(Car(
+                        falseCounter: automativeExpertController.falseCount,
+                        trueCounter: automativeExpertController.trueCount,
                         expert: automativeExpertController.automativeExpert,
                         name: automativeExpertController.carNameController.text,
                         other: automativeExpertController.carDescription.text,
                         fullDescription:
                             automativeExpertController.fullDescrption.text,
                       ));
+
+                      //   automativeExpertController.addedCars.add(Car(
+                      //     falseCounter: automativeExpertController.trueCount,
+                      //     trueCounter: automativeExpertController.trueCount,
+                      //     expert: automativeExpertController.automativeExpert,
+                      //     name: automativeExpertController.carNameController.text,
+                      //     other: automativeExpertController.carDescription.text,
+                      //     fullDescription:
+                      //         automativeExpertController.fullDescrption.text,
+                      //   ));
+                      //   await Hive.box<Car>('carBox').add(
+                      //       automativeExpertController.addedCars.reversed.first);
                     }
 
                     automativeExpertController.automativeExpert.values;
-                    automativeExpertController.carNameController.clear();
-                    automativeExpertController.carDescription.clear();
-                    automativeExpertController.fullDescrption.clear();
-                    automativeExpertController.itemDescription.clear();
-                    automativeExpertController.isEditingMode = false;
 
                     Get.offAll(HomePage());
                   } else {
@@ -468,5 +417,51 @@ class AutomativeExpertCheklist extends StatelessWidget {
         ],
       )),
     );
+  }
+
+  void counterTrueFalse() {
+    automativeExpertController.automativeExpert.forEach((key, value) {
+      if (key == 'بدنه و شاسی') {
+        for (var model in value) {
+          if (model.isHealthy == true) {
+            automativeExpertController.trueCount[1]++;
+          } else if (model.isHealthy == false) {
+            automativeExpertController.falseCount[1]++;
+          }
+        }
+      } else if (key == 'فنی') {
+        for (var model in value) {
+          if (model.isHealthy == true) {
+            automativeExpertController.trueCount[2]++;
+          } else if (model.isHealthy == false) {
+            automativeExpertController.falseCount[2]++;
+          }
+        }
+      } else if (key == 'آپشن و رفاهی') {
+        for (var model in value) {
+          if (model.isHealthy == true) {
+            automativeExpertController.trueCount[3]++;
+          } else if (model.isHealthy == false) {
+            automativeExpertController.falseCount[3]++;
+          }
+        }
+      } else if (key == 'رینگ و لاستیک') {
+        for (var model in value) {
+          if (model.isHealthy == true) {
+            automativeExpertController.trueCount[4]++;
+          } else if (model.isHealthy == false) {
+            automativeExpertController.falseCount[4]++;
+          }
+        }
+      } else if (key == 'اسناد و مدارک') {
+        for (var model in value) {
+          if (model.isHealthy == true) {
+            automativeExpertController.trueCount[5]++;
+          } else if (model.isHealthy == false) {
+            automativeExpertController.falseCount[5]++;
+          }
+        }
+      }
+    });
   }
 }

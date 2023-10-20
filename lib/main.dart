@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:karshenase_khodro/components/theme_data.dart';
 import 'package:karshenase_khodro/home.dart';
-
 import 'models/automative_expert_cheklist_model.dart';
 
 void main() async {
@@ -29,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

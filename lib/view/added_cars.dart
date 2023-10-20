@@ -34,18 +34,39 @@ class AddedCars extends StatelessWidget {
                           return Card(
                               child: ListTile(
                             onLongPress: () {
-                              automativeExpertController
-                                  .deleteCarFromHive(index);
-                              automativeExpertController.addedCars
-                                  .removeAt(index);
+                              {}
+                              Get.defaultDialog(
+                                title:
+                                    '« ${automativeExpertController.addedCars.reversed.toList()[index].name} » حذف شود؟ ',
+                                middleText: '',
+                                textCancel: 'لغو',
+                                textConfirm: 'حذف',
+                                onConfirm: () {
+                                  automativeExpertController.deleteCarFromHive(
+                                      (automativeExpertController
+                                                  .addedCars.length -
+                                              1) -
+                                          index);
+                                  automativeExpertController.addedCars.removeAt(
+                                      (automativeExpertController
+                                                  .addedCars.length -
+                                              1) -
+                                          index);
+                                  Get.back();
+                                },
+                              );
                             },
                             onTap: () {
                               automativeExpertController.selectedItemIndex =
-                                  index;
+                                  (automativeExpertController.addedCars.length -
+                                          1) -
+                                      index;
                               Get.to(CarItem());
                             },
                             title: Text(automativeExpertController
-                                .addedCars[index].name),
+                                .addedCars.reversed
+                                .toList()[index]
+                                .name),
                             leading: Text('${index + 1}'),
                           ));
                         },
@@ -53,6 +74,11 @@ class AddedCars extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () async {
+                  automativeExpertController.carNameController.clear();
+                  automativeExpertController.carDescription.clear();
+                  automativeExpertController.fullDescrption.clear();
+                  automativeExpertController.itemDescription.clear();
+                  automativeExpertController.isEditingMode = false;
                   for (int i = 0;
                       i < automativeExpertController.trueCount.length;
                       i++) {
