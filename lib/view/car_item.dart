@@ -129,12 +129,9 @@ class CarItem extends StatelessWidget {
                                         '${automativeExpertController.addedCars[automativeExpertController.selectedItemIndex!].trueCounter[index]}'
 
                                         // automativeExpertController
-                                        //       .addedCars[
-                                        //           automativeExpertController
-                                        //               .selectedItemIndex!]
-                                        //       .trueCounter[index]
-                                        //       .toString()
-                                        //'{automativeExpertController.addedCars[index].falseCounter[2]}'
+                                        //     .trueCount[index]
+                                        //     .toString()
+                                        // '{automativeExpertController.addedCars[index].falseCounter[2]}'
                                         ),
                                     const SizedBox(
                                       width: 6,
@@ -272,6 +269,7 @@ class EditButton extends StatelessWidget {
                   });
                 }
               }
+              // AutomativeExpertCheklist().counterTrueFalse();
             }
 //
             if (automativeExpertController.automativeExpert !=

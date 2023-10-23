@@ -15,7 +15,7 @@ class AddedCars extends StatelessWidget {
         body: Column(
           children: [
             const Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Text(
                 'لیست خودرو های کارشناسی شده',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -35,6 +35,7 @@ class AddedCars extends StatelessWidget {
                               child: ListTile(
                             onLongPress: () {
                               {}
+                              //delete dialog box
                               Get.defaultDialog(
                                 title:
                                     '« ${automativeExpertController.addedCars.reversed.toList()[index].name} » حذف شود؟ ',
@@ -57,6 +58,8 @@ class AddedCars extends StatelessWidget {
                               );
                             },
                             onTap: () {
+                              // AutomativeExpertCheklist().counterTrueFalsetest();
+                              // go to selected item info
                               automativeExpertController.selectedItemIndex =
                                   (automativeExpertController.addedCars.length -
                                           1) -
@@ -74,34 +77,7 @@ class AddedCars extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  automativeExpertController.carNameController.clear();
-                  automativeExpertController.carDescription.clear();
-                  automativeExpertController.fullDescrption.clear();
-                  automativeExpertController.itemDescription.clear();
-                  automativeExpertController.isEditingMode = false;
-                  for (int i = 0;
-                      i < automativeExpertController.trueCount.length;
-                      i++) {
-                    automativeExpertController.trueCount[i] = 0;
-                  }
-                  for (int i = 0;
-                      i < automativeExpertController.falseCount.length;
-                      i++) {
-                    automativeExpertController.falseCount[i] = 0;
-                  }
-
-                  automativeExpertController.automativeExpert
-                      .forEach((key, value) {
-                    for (var item in value) {
-                      item.isHealthy = null;
-                    }
-                  });
-                  automativeExpertController.automativeExpert
-                      .forEach((key, value) {
-                    for (var item in value) {
-                      item.description.clear();
-                    }
-                  });
+                  clearAllInputs();
                   await Future.delayed(Duration.zero, () {
                     Get.to(AutomativeExpertCheklist());
                   });
@@ -123,5 +99,30 @@ class AddedCars extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void clearAllInputs() {
+    automativeExpertController.carNameController.clear();
+    automativeExpertController.carDescription.clear();
+    automativeExpertController.fullDescrption.clear();
+    automativeExpertController.itemDescription.clear();
+    automativeExpertController.isEditingMode = false;
+    for (int i = 0; i < automativeExpertController.trueCount.length; i++) {
+      automativeExpertController.trueCount[i] = 0;
+    }
+    for (int i = 0; i < automativeExpertController.falseCount.length; i++) {
+      automativeExpertController.falseCount[i] = 0;
+    }
+
+    automativeExpertController.automativeExpert.forEach((key, value) {
+      for (var item in value) {
+        item.isHealthy = null;
+      }
+    });
+    automativeExpertController.automativeExpert.forEach((key, value) {
+      for (var item in value) {
+        item.description.clear();
+      }
+    });
   }
 }

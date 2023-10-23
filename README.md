@@ -1,16 +1,8 @@
 # karshenase_khodro
 
-A new Flutter project.
+An simple application including a checklist for a car technician
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+In this program, you can check the health of the car based on the list, and if there are any problems, write down the program and provide a comprehensive report of the car's condition.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+برنامه چک لیست کارشناسی خودرو

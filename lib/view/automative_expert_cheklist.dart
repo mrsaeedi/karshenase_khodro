@@ -42,77 +42,15 @@ class AutomativeExpertCheklist extends StatelessWidget {
                     return index ==
                             automativeExpertController.automativeExpert.length -
                                 1
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 30),
-                            child: TextField(
-                              controller:
-                                  automativeExpertController.fullDescrption,
-                              maxLines: 3,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  label: Text('توضیحات تکمیلی')),
-                            ),
-                          )
+//! full description input
+                        ? AddFullDesceiptionWidget(
+                            automativeExpertController:
+                                automativeExpertController)
 //! Specifications
                         : (index == 0)
-                            ? Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 30),
-                                    child: TextField(
-                                      controller: automativeExpertController
-                                          .carNameController,
-                                      decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          label: Text('نام خودرو')),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 30),
-                                    child: TextField(
-                                      controller: automativeExpertController
-                                          .carDescription,
-                                      decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          label: Text('سایر مشخصات')),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        const Text('سالم'),
-                                        Checkbox(
-                                          activeColor: Colors.green,
-                                          value: true,
-                                          onChanged: (value) {},
-                                        ),
-                                        Text('دارای ایراد'),
-                                        Checkbox(
-                                          activeColor: Colors.red,
-                                          value: true,
-                                          onChanged: (value) {},
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              )
+                            ? SpecificationsWidget(
+                                automativeExpertController:
+                                    automativeExpertController)
 //! check list items
                             : Container(
                                 margin: const EdgeInsets.symmetric(
@@ -147,92 +85,8 @@ class AutomativeExpertCheklist extends StatelessWidget {
                                                         .itemDescription
                                                         .clear();
                                                     //! show bottom sheet for add new item
-                                                    Get.bottomSheet(
-                                                        Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      horizontal:
-                                                                          18.0,
-                                                                      vertical:
-                                                                          15),
-                                                              child: Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    child:
-                                                                        TextField(
-                                                                      controller:
-                                                                          automativeExpertController
-                                                                              .itemDescription,
-                                                                      decoration: const InputDecoration(
-                                                                          label: Text(
-                                                                              'توضیح جدید'),
-                                                                          border:
-                                                                              OutlineInputBorder()),
-                                                                    ),
-                                                                  ),
-                                                                  Container(
-                                                                    height: 60,
-                                                                    width: 60,
-                                                                    margin: const EdgeInsets
-                                                                        .only(
-                                                                        right:
-                                                                            10),
-                                                                    decoration: const BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.all(Radius.circular(
-                                                                                4)),
-                                                                        color: Color.fromARGB(
-                                                                            0,
-                                                                            0,
-                                                                            130,
-                                                                            153)),
-                                                                    child: IconButton(
-                                                                        onPressed: () {},
-                                                                        icon: const Icon(
-                                                                          Icons
-                                                                              .add,
-                                                                          color: Color.fromARGB(
-                                                                              255,
-                                                                              0,
-                                                                              95,
-                                                                              150),
-                                                                          size:
-                                                                              24,
-                                                                        )),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            ElevatedButton(
-                                                                onPressed: () {
-                                                                  item.description.add(
-                                                                      automativeExpertController
-                                                                          .itemDescription
-                                                                          .text);
-                                                                  automativeExpertController
-                                                                      .automativeExpert
-                                                                      .refresh();
-                                                                  Get.back();
-                                                                },
-                                                                child:
-                                                                    const Text(
-                                                                  'اضافه کن',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          18),
-                                                                )),
-                                                            const SizedBox(
-                                                              height: 15,
-                                                            )
-                                                          ],
-                                                        ),
-                                                        backgroundColor:
-                                                            Colors.white);
+                                                    showBottomSheetForAddItemsDescrieption(
+                                                        item);
                                                   },
                                                   icon: const Icon(
                                                     Icons.post_add,
@@ -246,8 +100,8 @@ class AutomativeExpertCheklist extends StatelessWidget {
                                           subtitle: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
+                                              // item descreiption list
                                               ListView.builder(
-// item descreiption list
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
                                                 shrinkWrap: true,
@@ -300,6 +154,7 @@ class AutomativeExpertCheklist extends StatelessWidget {
                                           trailing: Container(
                                             margin:
                                                 const EdgeInsets.only(left: 0),
+                                            //chech box row
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -351,53 +206,14 @@ class AutomativeExpertCheklist extends StatelessWidget {
                   if (automativeExpertController
                       .carNameController.text.isNotEmpty) {
                     if (automativeExpertController.isEditingMode) {
-                      automativeExpertController.updateCarInHive(
-                          // index // insert car description for edit
-                          index: automativeExpertController.selectedItemIndex,
-                          //expert
-                          expert: automativeExpertController.automativeExpert,
-                          //name
-                          name:
-                              automativeExpertController.carNameController.text,
-                          // full descrieption
-                          fullDescription:
-                              automativeExpertController.fullDescrption.text,
-                          // ohter
-                          other: automativeExpertController.carDescription.text,
-                          // true counter
-                          t: automativeExpertController.trueCount,
-                          // false counter
-                          f: automativeExpertController.falseCount);
-
-                      automativeExpertController.isEditingMode = false;
+                      updateCarItem();
                     } else {
                       //
+                      // counterTrueFalsetest();
                       counterTrueFalse();
-                      await Hive.box<Car>('carBox').add(Car(
-                        falseCounter: automativeExpertController.falseCount,
-                        trueCounter: automativeExpertController.trueCount,
-                        expert: automativeExpertController.automativeExpert,
-                        name: automativeExpertController.carNameController.text,
-                        other: automativeExpertController.carDescription.text,
-                        fullDescription:
-                            automativeExpertController.fullDescrption.text,
-                      ));
-
-                      //   automativeExpertController.addedCars.add(Car(
-                      //     falseCounter: automativeExpertController.trueCount,
-                      //     trueCounter: automativeExpertController.trueCount,
-                      //     expert: automativeExpertController.automativeExpert,
-                      //     name: automativeExpertController.carNameController.text,
-                      //     other: automativeExpertController.carDescription.text,
-                      //     fullDescription:
-                      //         automativeExpertController.fullDescrption.text,
-                      //   ));
-                      //   await Hive.box<Car>('carBox').add(
-                      //       automativeExpertController.addedCars.reversed.first);
+                      addItemsToHive();
                     }
-
-                    automativeExpertController.automativeExpert.values;
-
+                    // automativeExpertController.automativeExpert.values;
                     Get.offAll(HomePage());
                   } else {
                     Get.showSnackbar(const GetSnackBar(
@@ -419,6 +235,40 @@ class AutomativeExpertCheklist extends StatelessWidget {
     );
   }
 
+  //add to hive
+  void addItemsToHive() async {
+    await Hive.box<Car>('carBox').add(Car(
+      falseCounter: automativeExpertController.falseCount,
+      trueCounter: automativeExpertController.trueCount,
+      expert: automativeExpertController.automativeExpert,
+      name: automativeExpertController.carNameController.text,
+      other: automativeExpertController.carDescription.text,
+      fullDescription: automativeExpertController.fullDescrption.text,
+    ));
+  }
+
+  //update
+  void updateCarItem() {
+    automativeExpertController.updateCarInHive(
+        // index // insert car description for edit
+        index: automativeExpertController.selectedItemIndex,
+        //expert
+        expert: automativeExpertController.automativeExpert,
+        //name
+        name: automativeExpertController.carNameController.text,
+        // full descrieption
+        fullDescription: automativeExpertController.fullDescrption.text,
+        // ohter
+        other: automativeExpertController.carDescription.text,
+        // true counter
+        t: automativeExpertController.trueCount,
+        // false counter
+        f: automativeExpertController.falseCount);
+
+    automativeExpertController.isEditingMode = false;
+  }
+
+//counter
   void counterTrueFalse() {
     automativeExpertController.automativeExpert.forEach((key, value) {
       if (key == 'بدنه و شاسی') {
@@ -463,5 +313,148 @@ class AutomativeExpertCheklist extends StatelessWidget {
         }
       }
     });
+  }
+
+//
+  void showBottomSheetForAddItemsDescrieption(item) {
+    Get.bottomSheet(
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: automativeExpertController.itemDescription,
+                      decoration: const InputDecoration(
+                          label: Text('توضیح جدید'),
+                          border: OutlineInputBorder()),
+                    ),
+                  ),
+                  // Container(
+                  //   height: 60,
+                  //   width: 60,
+                  //   margin: const EdgeInsets.only(right: 10),
+                  //   decoration: const BoxDecoration(
+                  //       borderRadius: BorderRadius.all(Radius.circular(4)),
+                  //       color: Color.fromARGB(0, 0, 130, 153)),
+                  //   child: IconButton(
+                  //       onPressed: () {},
+                  //       icon: const Icon(
+                  //         Icons.add,
+                  //         color: Color.fromARGB(255, 0, 95, 150),
+                  //         size: 24,
+                  //       )),
+                  // )
+                ],
+              ),
+            ),
+            // add new itesm of check list descrieption
+            ElevatedButton(
+                onPressed: () {
+                  item.description
+                      .add(automativeExpertController.itemDescription.text);
+                  automativeExpertController.automativeExpert.refresh();
+                  Get.back();
+                },
+                child: const Text(
+                  'اضافه کن',
+                  style: TextStyle(fontSize: 18),
+                )),
+            const SizedBox(
+              height: 15,
+            )
+          ],
+        ),
+        backgroundColor: Colors.white);
+  }
+}
+
+class AddFullDesceiptionWidget extends StatelessWidget {
+  const AddFullDesceiptionWidget({
+    super.key,
+    required this.automativeExpertController,
+  });
+
+  final AutomativeExpertController automativeExpertController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+      child: TextField(
+        controller: automativeExpertController.fullDescrption,
+        maxLines: 3,
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(), label: Text('توضیحات تکمیلی')),
+      ),
+    );
+  }
+}
+
+// add name and Specifications Widget
+class SpecificationsWidget extends StatelessWidget {
+  const SpecificationsWidget({
+    super.key,
+    required this.automativeExpertController,
+  });
+
+  final AutomativeExpertController automativeExpertController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+          child: TextField(
+            controller: automativeExpertController.carNameController,
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), label: Text('نام خودرو')),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+          child: TextField(
+            controller: automativeExpertController.carDescription,
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), label: Text('سایر مشخصات')),
+          ),
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const Text('سالم'),
+              Checkbox(
+                activeColor: Colors.green,
+                value: true,
+                onChanged: (value) {},
+              ),
+              Text('دارای ایراد'),
+              Checkbox(
+                activeColor: Colors.red,
+                value: true,
+                onChanged: (value) {},
+              ),
+            ],
+          ),
+        )
+      ],
+    );
   }
 }
